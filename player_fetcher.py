@@ -45,14 +45,16 @@ def fetch_players():
 
         time.sleep(1.5)
 
-    with open("./output/player_info.csv", mode='w+') as out_file:
+
+    output_file = "./output/player_info.csv"
+    if os.path.exists(output_file):
+        os.remove(output_file)       
+
+    with open(output_file, mode='w+') as out_file:
         writer = csv.writer(out_file, delimiter=",", quotechar='"')
         writer.writerows(entries)
 
     return entries
-    # Write entries to csv
-    # print("~~~ Writing file... ~~~")
 
-    # print("done!")
 
 

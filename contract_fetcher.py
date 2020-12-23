@@ -46,19 +46,6 @@ def fetch_contracts():
         "PlayerId"
     ]
 
-    # output = []
-    # for contract in contracts:
-    #     entry = {}
-    #     for stat in contract:
-    #         for i in range(len(contracts_file_headers)):            
-    #             entry[contracts_file_headers[i]] = stat[i]
-    #     output.append(entry)
-    #  ret = []
-    # for contract in contracts:
-    #     zipped = zip(contracts_keys, contract)
-    #     entry = dict(zipped)
-    #     ret.append(entry)
-
     if os.path.exists(contracts_output_file):
         os.remove(contracts_output_file)
 
@@ -70,10 +57,5 @@ def fetch_contracts():
 
 
     ret = [dict(zip(contracts_keys, contract)) for contract in contracts]
-
     return ret
-
-
-
-# print(contracts)
 

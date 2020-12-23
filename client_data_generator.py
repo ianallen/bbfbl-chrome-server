@@ -81,7 +81,6 @@ def generate_client_data(player_data, contract_data):
         except KeyError as e:
             print("Couldn't find match:", record["name"], _slugify(record["name"]))
 
-    #date = _get_date()
     output_path =  "./output/salaries.json"
     if os.path.exists(output_path):
         os.remove(output_path)
