@@ -5,10 +5,13 @@ from contract_fetcher import fetch_contracts
 from client_data_generator import generate_client_data
 import json
 from apscheduler.schedulers.background import BackgroundScheduler
+from flask_cors import CORS
+
 
 
 app = Flask(__name__)
-app.config["DEBUG"] = True
+# app.config["DEBUG"] = True
+CORS(app)
 
 @app.route('/')
 def hello():
@@ -20,8 +23,6 @@ def salaries():
     with open("./output/salaries.json") as salary_file:
         salaries = json.loads(salary_file.read())
         return jsonify(salaries)
-
-
 
 
 def update_salaies_job():
@@ -36,4 +37,4 @@ def update_salaies_job():
 
 scheduler = BackgroundScheduler()
 scheduler.start()
-scheduler.add_job(update_salaies_job, trigger = 'interval', minutes = 2) #1440
+scheduler.add_job(update_salaies_job, trigger = 'interval', minutes = 1440) #1440
