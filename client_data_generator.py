@@ -46,6 +46,7 @@ def remove_accents(text):
         .replace("ž", "z") \
         .replace("ó", "o") \
         .replace("é", "e") \
+        .replace("Théo Maledon", "Theo Maledon") \
         .replace("Waller-Prince", "Prince") \
         .replace("Mo Bamba", "Mohamed Bamba") \
         .replace("Jakob Pöltl", "Jakob Poeltl") \
