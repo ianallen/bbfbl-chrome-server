@@ -25,14 +25,23 @@ def salaries():
         return jsonify(salaries)
 
 
+@app.route('/kick')
+def kick():
+    result = update_salaies_job()
+    if result:
+        return "Complete"
+    return "Job Failed"
+
 def update_salaies_job():
     try:
         player_data = fetch_players()
         contracts = fetch_contracts()
         data = generate_client_data(player_data, contracts)
         print("Salary job complete!")
+        return True
     except Exception as e:
         print("Job failed:", e)
+        return False
 
 
 scheduler = BackgroundScheduler()
