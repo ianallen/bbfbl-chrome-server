@@ -10,7 +10,7 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
-# app.config["DEBUG"] = True
+app.config["DEBUG"] = True
 CORS(app)
 
 @app.route('/')
@@ -20,8 +20,10 @@ def hello():
 
 @app.route('/salaries')
 def salaries():
-    with open("./output/salaries.json") as salary_file:
+    with open("./output/salaries.json") as salary_file, open("./data/hard_coded_salaries.json") as extras:
         salaries = json.loads(salary_file.read())
+        extra = json.loads(extras.read())
+        salaries.extend(extra)
         return jsonify(salaries)
 
 
@@ -34,13 +36,13 @@ def kick():
 
 def update_salaies_job():
     try:
-        player_data = fetch_players()
+        player_data = fetch_players() 
         contracts = fetch_contracts()
         data = generate_client_data(player_data, contracts)
         print("Salary job complete!")
         return True
     except Exception as e:
-        print("Job failed:", e)
+        print("Job failed:", str(e))
         return False
 
 

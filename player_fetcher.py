@@ -44,7 +44,7 @@ def fetch_players():
             entries.append(entry)
             print("Added entry for %s (%s)" % (name, player_id))
 
-        time.sleep(1.5)
+        time.sleep(3)
 
 
     output_file = "./output/player_info.csv"

@@ -16,7 +16,7 @@ def _clean_name(name):
         raise ValueError("Bad player name input %s" % (name))
     return name[0:delim_index].strip()
 
-_slugify_re = re.compile(r"(\.|\s|-|'|III|IV|Jr.|Sr.|II)")
+_slugify_re = re.compile(r"(\.|\s|-|'|’|III|IV|Jr.|Jr|Sr.|II)")
 def _slugify(text):
     accentless = remove_accents(text)
     slug = _slugify_re.sub("", accentless)
@@ -27,7 +27,7 @@ def _is_fuzzy_match(str1, str2):
 
 def remove_accents(text):
     return text \
-        .replace("ć", "c") \
+       .replace("ć", "c") \
         .replace("č", "c") \
         .replace("ö", "o") \
         .replace("í", "i") \
@@ -52,10 +52,14 @@ def remove_accents(text):
         .replace("Jakob Pöltl", "Jakob Poeltl") \
         .replace("Maurice Harkless", "Moe Harkless") \
         .replace("Juan Hernangómez", "Juancho Hernangómez") \
-        .replace("Sviatoslav Mykhailiuk", "Svi Mykhailiuk")
+        .replace("Sviatoslav Mykhailiuk", "Svi Mykhailiuk") \
+        .replace("KJ Martin", "Kenyon Martin Jr.") # todo: figure out what happens to the Jr. here
 
 def _salary_to_number(text):
+    if text is None: return None
+    if isinstance(text, int): return int(text)
     if text == "": return None
+    if "$" not in text: return int(text)
     return int(text.replace("$", "").replace(",", ""))
 
 
@@ -63,11 +67,11 @@ def generate_client_data(player_data, contract_data):
     output = []
     for contract in contract_data:
         record = {}
-        record["name"] = contract["Player"]
-        record["salary20_21"]= _salary_to_number(contract["2020-21"])
-        record["salary21_22"]= _salary_to_number(contract["2021-22"])
-        record["salary22_23"]= _salary_to_number(contract["2022-23"])
-        record["salary23_24"]= _salary_to_number(contract["2023-24"])
+        record["name"] = contract["Player"] 
+        record["salary22_23"]= _salary_to_number(contract.get("2022-23"))
+        record["salary23_24"]= _salary_to_number(contract.get("2023-24"))
+        record["salary24_25"]= _salary_to_number(contract.get("2024-25"))
+        record["salary25_26"]= _salary_to_number(contract.get("2025-26"))
 
         for row in player_data:
             if _is_fuzzy_match(row[1], record["name"]):

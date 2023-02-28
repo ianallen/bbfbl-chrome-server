@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/28514a9a-89bf-46de-ac46-d64bc8365d18/resourceGroups/ianislike_rg_Linux_eastus/subscriptions/28514a9a-89bf-46de-ac46-d64bc8365d18/resourceGroups/ianislike_rg_Linux_eastus/providers/Microsoft.Web/sites/bbfbl-chrome",
+    "appService.deploySubpath": "."
+}
