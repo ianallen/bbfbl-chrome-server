@@ -53,7 +53,10 @@ def remove_accents(text):
         .replace("Maurice Harkless", "Moe Harkless") \
         .replace("Juan Hernangómez", "Juancho Hernangómez") \
         .replace("Sviatoslav Mykhailiuk", "Svi Mykhailiuk") \
-        .replace("KJ Martin", "Kenyon Martin Jr.") # todo: figure out what happens to the Jr. here
+        .replace("KJ Martin", "Kenyon Martin Jr.") \
+        .replace("Nicolas Claxton", "Nic Claxton") \
+        .replace("Cameron Thomas", "Cam Thomas") \
+        .replace("Herb Jones", "Herbert Jones")
 
 def _salary_to_number(text):
     if text is None: return None
@@ -64,14 +67,17 @@ def _salary_to_number(text):
 
 
 def generate_client_data(player_data, contract_data):
+    print("generating client data...")
+    # print(player_data)
+    # print(contract_data)
     output = []
     for contract in contract_data:
         record = {}
         record["name"] = contract["Player"] 
-        record["salary22_23"]= _salary_to_number(contract.get("2022-23"))
         record["salary23_24"]= _salary_to_number(contract.get("2023-24"))
         record["salary24_25"]= _salary_to_number(contract.get("2024-25"))
         record["salary25_26"]= _salary_to_number(contract.get("2025-26"))
+        record["salary26_27"]= _salary_to_number(contract.get("2026-27"))
 
         for row in player_data:
             if _is_fuzzy_match(row[1], record["name"]):

@@ -9,12 +9,22 @@ from datetime import datetime
 
 def create_date():
     month = datetime.now().month
-    year = datetime.now().year - 2000
+    year = datetime.now().year
     day = datetime.now().day
-    date = str(month) + str(year) + str(day)
+    date = f'{str(year)}_{str(month)}_{str(day)}'
     return date
 
-def fetch_players():
+def fetch_players(refresh=False):
+
+    if not refresh:
+        print("Fetching players from cache...")
+        with open("./output/player_info.csv") as raw:
+            reader = csv.reader(raw)
+            data = []
+            for row in reader:
+                data.append(row)
+            return data
+
     date = create_date()
     url_template = "https://sports.yahoo.com/site/api/resource/sports.team.roster;id=nba.t.{0}?bkt=sports-US-en-US-def&device=smartphone&feature=canvassOffnet%2CenableCMP%2CenableConsentData%2CnewMyTeamsNav%2Csp-nav-test%2CvideoShowTest%2CnewContentAttribution%2Clivecoverage%2CcaasSmartphone%2Ccanvass%2CnflLiveVideo%2CdesktopNotifications%2CsearchAssist%2Clicensed-only%2CdfsFavoriteTeamPromo%2CnewLogo%2CenableScrollRestoration%2CoathPlayer&intl=us&lang=en-US&partner=none&prid=5mk036leqt4rj&region=US&site=sports&tz=America/Montreal&ver=1.0.5052&returnMeta=true"
 

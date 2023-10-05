@@ -8,7 +8,16 @@ from datetime import date
 
 team_index_url = "https://www.spotrac.com/nba/"
 
-def fetch_contracts():
+def fetch_contracts(refresh=False):
+    if not refresh:
+        print("Fetching contracts from cache...")
+        with open("./output/contracts_23_24.csv") as raw:
+            reader = csv.DictReader(raw)
+            data = []
+            for row in reader:
+                data.append(row)
+            return data
+        
     team_index = get_page(team_index_url)
     urls = parse_team_index(team_index)
     # urls = urls[0:1]
@@ -31,8 +40,8 @@ def fetch_contracts():
                 continue
 
     today = date.today().strftime("%b-%d-%Y")
-    outfilename = "./output/contracts_22_23.csv"
-    headers = ["Player", "current_salary", "salary_url", 'sportrac_id', '2022-23', '2023-24', '2024-25', '2025-26']
+    outfilename = "./output/contracts_23_24.csv"
+    headers = ["Player", "current_salary", "salary_url", 'sportrac_id', '2023-24', '2024-25', '2025-26', '2026-2027']
     with open(outfilename, "w+", newline='', encoding='utf-8') as outfile:
         writer = csv.writer(outfile)      
         writer.writerow(headers)
@@ -72,8 +81,6 @@ def parse_team_page(team_page):
 
 def parse_player_page(page):
     soup = BeautifulSoup(page, 'html.parser')
-    # f = open('./sample_player_page.html')
-    # soup = BeautifulSoup(f, 'html.parser')
 
     salary_table = soup.select("table.salaryTable")[2]
     # print(salary_table)
@@ -131,7 +138,7 @@ def parse_player_page2(page, debug=False):
     for k, v in result.items():
         if 'Hold' in v:
             to_remove.append(k)
-        if k not in [2022, 2023, 2024, 2025, 2026]:
+        if k not in [2023, 2024, 2025, 2026]:
             to_remove.append(k)
 
     for k in to_remove:

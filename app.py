@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import jsonify
+from flask import jsonify, request
 from player_fetcher import fetch_players
 from contract_fetcher import fetch_contracts
 from client_data_generator import generate_client_data
@@ -29,15 +29,23 @@ def salaries():
 
 @app.route('/kick')
 def kick():
-    result = update_salaies_job()
+    force = request.args.get('force', False)
+    result = update_salaies_job(force)
     if result:
         return "Complete"
     return "Job Failed"
 
-def update_salaies_job():
+@app.route('/fetch-players')
+def run_fetch_players():
+    fetch_players() 
+    return 'Success', 200
+
+
+
+def update_salaies_job(force=False):
     try:
-        player_data = fetch_players() 
-        contracts = fetch_contracts()
+        player_data = fetch_players(force) 
+        contracts = fetch_contracts(force)
         data = generate_client_data(player_data, contracts)
         print("Salary job complete!")
         return True
